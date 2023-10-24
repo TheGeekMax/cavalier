@@ -1,4 +1,4 @@
-import tools.Vector2Int;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,13 +7,15 @@ import java.awt.event.MouseListener;
 
 public class GamePannel extends JPanel {
 
-    public static final int WIDTH = 600;
+    public static final int WIDTH = 256*3;
     public static final int TAB_WIDTH = 3;
     public static final int SIZE = WIDTH / TAB_WIDTH;
 
     //couleurs
-    public static final Color BLACK_COLOR = Color.decode("#0F0F3B");
+    public static final Color BLACK_COLOR = Color.decode("#2F2F5B");
     public static final Color WHITE_COLOR = Color.decode("#B7C0eB");
+
+    private PictureManager pictureManager;
 
 
     //variables relative a la selection
@@ -30,6 +32,12 @@ public class GamePannel extends JPanel {
     * */
 
     public GamePannel(){
+        //on initialise les tableaux
+        pictureManager = new PictureManager(getClass().getResourceAsStream("/assets/pawns.png"),64);
+
+        pictureManager.addFromPicture("white",0,0);
+        pictureManager.addFromPicture("black",1,0);
+
         //on initialise le tableau
         for(int i = 0; i < TAB_WIDTH; i++){
             for(int j = 0; j < TAB_WIDTH; j ++){
@@ -127,11 +135,9 @@ public class GamePannel extends JPanel {
                 g2d.fillRect(i*SIZE,j*SIZE,SIZE,SIZE);
 
                 if(plateau[i][j] == 1){
-                    g2d.setColor(Color.WHITE);
-                    g2d.fillRect(i*SIZE+20,j*SIZE+20,SIZE-40,SIZE-40);
+                    g2d.drawImage(pictureManager.getBufferedPictureFromName("white"),i*SIZE,j*SIZE,SIZE,SIZE,null);
                 }else if (plateau[i][j] == 2){
-                    g2d.setColor(Color.BLACK);
-                    g2d.fillRect(i*SIZE+20,j*SIZE+20,SIZE-40,SIZE-40);
+                    g2d.drawImage(pictureManager.getBufferedPictureFromName("black"),i*SIZE,j*SIZE,SIZE,SIZE,null);
                 }
             }
         }
